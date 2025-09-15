@@ -1,0 +1,72 @@
+# Customized Environment Configuration for Visualization
+scenario: CustomizedEnv
+model_config_file: vdn.json
+model_file: vdn.th
+
+# Model and actor configuration (using existing models for visualization)
+actor_file: rnn_agent
+actor_class: RNNAgent
+env_file: customized_warehouse
+env_class: CustomizedWarehouse
+
+# Environment parameters
+n_actions: 5  # Number of actions available for each agent
+episodes: 5   # Number of episodes to run for visualization
+shared_reward: False  # Individual rewards for each agent
+seed: 42  # Fixed seed for reproducible visualization
+
+# Agent configuration
+n_agents: 4  # Number of robots to visualize
+num_neighbors: 3  # Number of neighbors each agent can observe
+max_episode_steps: 200  # Maximum steps per episode
+update_frequency: 15  # How often actions are processed (lower = smoother movement)
+step_dist: 0.15  # Distance moved per action (smaller = more precise movement)
+start_dist: 0.4  # Minimum distance between initial robot positions
+
+# Robotarium settings
+robotarium: False  # Set to False for faster visualization
+barrier_certificate: safe  # Collision avoidance
+penalize_violations: True  # Stop episode on collisions
+
+# Visualization settings
+show_figure_frequency: 1  # Show visualization every episode
+real_time: True  # Set to True for real-time debugging
+enable_logging: False  # Disable logging for pure visualization
+save_gif: True  # Save GIFs of episodes
+gif_frequency: 10  # Frame capture frequency for GIFs
+
+# Environment boundaries (Robotarium coordinate system)
+LEFT: -1.4   # Left boundary (meters)
+RIGHT: 1.4   # Right boundary (meters)
+UP: -0.8     # Top boundary (meters)
+DOWN: 0.8    # Bottom boundary (meters)
+
+# Goal zone configuration
+load_reward: 1    # Reward for reaching loading zone
+unload_reward: 3  # Reward for reaching unloading zone
+goal_width: 0.4   # Width of goal zones
+
+# Environment layout configuration
+# Obstacle definitions: [x, y, width, height] - 4 vertical columns creating corridors
+obstacle_positions:
+  - [-0.5, -0.2, 0.3, 1.0]    # Left column
+  - [0.0, -0.2, 0.3, 1.0]    # Second column
+  - [0.5, -0.2, 0.3, 1.0]    # Third column
+  - [1.0, -0.2, 0.3, 1.0]    # Right column
+
+# Goal zone definitions: [x, y, width, height, type, color]
+goal_zones:
+  # Load zones (left side)
+  - [-1.5, 0.2, 0.4, 0.6, "load", "red"]     # Load Zone 1
+  - [-1.5, -0.8, 0.4, 0.6, "load", "red"]   # Load Zone 2
+  
+  # Unload zones (right side, below obstacles)
+  - [-0.5, -0.25, 0.3, 0.1, "unload", "green"]   # Unload 1
+  - [0.0, -0.25, 0.3, 0.1, "unload", "green"]   # Unload 2
+  - [0.5, -0.25, 0.3, 0.1, "unload", "green"]   # Unload 3
+  - [1.0, -0.25, 0.3, 0.1, "unload", "green"]   # Unload 4
+
+# Robot behavior settings
+robot_speed: 0.15  # Base movement speed
+collision_penalty: -5  # Penalty for collisions
+boundary_penalty: -3   # Penalty for boundary violations
