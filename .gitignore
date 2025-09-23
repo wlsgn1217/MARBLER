@@ -8,3 +8,4 @@ results/
 robotarium_gym.egg-info/
 logs/
 gifs/
+.vscode/
